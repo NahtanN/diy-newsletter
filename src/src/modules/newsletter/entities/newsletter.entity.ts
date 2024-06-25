@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { NewsletterPreference } from '../../newsletter_preferences/entities/newsletter_preference.entity';
-import { CrawledUrl } from './crawled_url.entity';
+import { CrawledUrl } from '../../crawler/entities/crawled_url.entity';
 
 @Entity('newsletters')
 export class Newsletter {

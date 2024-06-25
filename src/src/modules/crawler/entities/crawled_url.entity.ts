@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Newsletter } from './newsletter.entity';
+import { Newsletter } from '../../newsletter/entities/newsletter.entity';
 
 @Entity('crawled_urls')
 export class CrawledUrl {
@@ -11,6 +11,9 @@ export class CrawledUrl {
 
   @Column({ name: 'newsletter_preference_config_id' })
   newsletterPreferenceConfigId: number;
+
+  @Column({ name: 'source_url' })
+  sourceUrl: string;
 
   @Column({ name: 'job_id' })
   jobId: string;

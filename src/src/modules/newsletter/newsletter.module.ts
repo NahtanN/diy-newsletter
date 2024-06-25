@@ -12,13 +12,24 @@ import { BullAdapter } from '@bull-board/api/bullAdapter';
 
 @Module({
   imports: [
-    BullModule.registerQueue({
-      name: Queues.NEWSLETTER.name,
-    }),
-    BullBoardModule.forFeature({
-      name: Queues.NEWSLETTER.name,
-      adapter: BullAdapter,
-    }),
+    BullModule.registerQueue(
+      {
+        name: Queues.NEWSLETTER.name,
+      },
+      {
+        name: Queues.CRAWLER.name,
+      },
+    ),
+    BullBoardModule.forFeature(
+      {
+        name: Queues.NEWSLETTER.name,
+        adapter: BullAdapter,
+      },
+      {
+        name: Queues.CRAWLER.name,
+        adapter: BullAdapter,
+      },
+    ),
     TypeOrmModule.forFeature([Newsletter]),
     NewsletterPreferencesModule,
   ],

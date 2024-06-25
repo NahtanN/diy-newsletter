@@ -9,6 +9,7 @@ import { NewsletterModule } from './src/modules/newsletter/newsletter.module';
 import { BullModule } from '@nestjs/bull';
 import { BullBoardModule } from '@bull-board/nestjs';
 import { ExpressAdapter } from '@bull-board/express';
+import { CrawlerModule } from './src/modules/crawler/crawler.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ExpressAdapter } from '@bull-board/express';
     NewsletterPreferencesModule,
     NewsletterModule,
     DatabaseModule,
+    CrawlerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
