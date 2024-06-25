@@ -9,5 +9,6 @@ import { NewsletterPreferenceConfig } from './entities/newsletter_preference_con
   imports: [TypeOrmModule.forFeature([NewsletterPreference, NewsletterPreferenceConfig])],
   providers: [NewsletterPreferencesService],
   controllers: [NewsletterPreferencesController],
+  exports: [NewsletterPreferencesService],
 })
 export class NewsletterPreferencesModule {}

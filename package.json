@@ -22,6 +22,9 @@
         "migration:run": "node-pg-migrate up --envPath ./.env -m ./src/infra/migrations/ 2>migrations.log"
     },
     "dependencies": {
+        "@bull-board/api": "^5.20.4",
+        "@bull-board/express": "^5.20.4",
+        "@bull-board/nestjs": "^5.20.4",
         "@nestjs/axios": "^3.0.2",
         "@nestjs/bull": "^10.1.1",
         "@nestjs/common": "^10.0.0",

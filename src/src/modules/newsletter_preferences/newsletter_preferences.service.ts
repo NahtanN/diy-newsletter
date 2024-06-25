@@ -74,7 +74,7 @@ export class NewsletterPreferencesService {
     const newsletterPreference = await this.findOne(newsLetterPreferenceId);
 
     return {
-      message: 'Newsletter criada com sucesso.',
+      message: 'Configuração de newsletter criada com sucesso.',
       newsletterPreference,
     };
   }

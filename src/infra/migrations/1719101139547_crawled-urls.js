@@ -2,14 +2,17 @@ exports.up = (pgm) => {
   pgm.sql(`
         CREATE TABLE "crawled_urls" (
             "id" serial PRIMARY KEY,
-            "newsletter_config_id" integer NOT NULL,
+            "newsletter_id" integer NOT NULL,
+            "newsletter_preference_config_id" integer NOT NULL,
+            "job_id" integer,
             "articles_url" varchar[],
-            "status" varchar
+            "status" varchar NOT NULL,
+            "created_at" timestamp with time zone not null default (current_timestamp at time zone 'utc')
         );
     `);
 
   pgm.sql(`
-        ALTER TABLE "crawled_urls" ADD FOREIGN KEY ("newsletter_config_id") REFERENCES "newsletter_preference_config" ("id");
+        ALTER TABLE "crawled_urls" ADD FOREIGN KEY ("newsletter_preference_config_id") REFERENCES "newsletter_preference_config" ("id");
     `);
 };
 

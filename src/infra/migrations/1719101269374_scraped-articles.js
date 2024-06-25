@@ -4,8 +4,8 @@ exports.up = (pgm) => {
             "id" serial PRIMARY KEY,
             "crawled_url_id" integer NOT NULL,
             "article_content" text,
-            "created_at" timestamp with time zone not null default (current_timestamp at time zone 'utc'),
-            "status" varchar
+            "status" varchar,
+            "created_at" timestamp with time zone not null default (current_timestamp at time zone 'utc')
         );
     `);
 
