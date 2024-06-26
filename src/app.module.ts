@@ -10,6 +10,7 @@ import { BullModule } from '@nestjs/bull';
 import { BullBoardModule } from '@bull-board/nestjs';
 import { ExpressAdapter } from '@bull-board/express';
 import { CrawlerModule } from './src/modules/crawler/crawler.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { CrawlerModule } from './src/modules/crawler/crawler.module';
       route: '/queues',
       adapter: ExpressAdapter,
     }),
+    ScheduleModule.forRoot(),
     HttpModule,
     NewsletterPreferencesModule,
     NewsletterModule,

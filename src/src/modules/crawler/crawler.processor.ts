@@ -4,9 +4,6 @@ import { Job } from 'bull';
 import { NewsletterStatus, Queues } from 'src/src/constants';
 import { CrawledUrl } from './entities/crawled_url.entity';
 import { CrawlerService } from './crawler.service';
-import { catchError, firstValueFrom } from 'rxjs';
-import { HttpService } from '@nestjs/axios';
-import { AxiosError } from 'axios';
 
 const FIRST_ATTEMPT = 0;
 
@@ -14,10 +11,7 @@ const FIRST_ATTEMPT = 0;
 export class CrawlerProcessor {
   private readonly logger = new Logger(CrawlerProcessor.name);
 
-  constructor(
-    private readonly crawlerService: CrawlerService,
-    private readonly httpService: HttpService,
-  ) {}
+  constructor(private readonly service: CrawlerService) {}
 
   @Process(Queues.CRAWLER.process.URL)
   async handlerCrawUrls(job: Job) {
@@ -27,34 +21,14 @@ export class CrawlerProcessor {
     if (job.attemptsMade === FIRST_ATTEMPT) {
       data.status = NewsletterStatus.IN_PROGRESS;
 
-      await this.crawlerService.update(data);
+      await this.service.update(data);
     }
 
-    const { data: response } = await firstValueFrom(
-      this.httpService
-        .post(process.env.CRAW_URL, {
-          url: data.sourceUrl,
-          crawlerOptions: {
-            generateImgAltText: false,
-            returnOnlyUrls: true,
-            maxDepth: 33,
-            limit: 33,
-          },
-          pageOptions: {
-            onlyMainContent: true,
-          },
-        })
-        .pipe(
-          catchError((error: AxiosError) => {
-            this.logger.error(error.response.data);
-            throw 'An error happened!';
-          }),
-        ),
-    );
+    const response = await this.service.crawlUrl(data.sourceUrl);
 
     data.jobId = response.jobId;
 
-    await this.crawlerService.update(data);
+    await this.service.update(data);
   }
 
   @OnQueueFailed()
@@ -67,7 +41,7 @@ export class CrawlerProcessor {
       const data = job.data as CrawledUrl;
       data.status = NewsletterStatus.FAILED;
 
-      await this.crawlerService.update(data);
+      await this.service.update(data);
     }
   }
 }
