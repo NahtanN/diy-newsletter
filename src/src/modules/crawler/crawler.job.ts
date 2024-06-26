@@ -10,7 +10,7 @@ export class CrawlerJob {
   constructor(private readonly service: CrawlerService) {}
 
   @Cron(CronExpression.EVERY_MINUTE)
-  async handleCron() {
+  async handleUpdateJobStatus() {
     this.logger.debug('CRON JOB STARTED: Filter crawled URLs');
     try {
       const crawls = await this.service.findByJobStatus(NewsletterStatus.IN_PROGRESS);
@@ -42,5 +42,27 @@ export class CrawlerJob {
       this.logger.error(`CRON JOB FAILED: ${error}`);
     }
     this.logger.debug('CRON JOB FINISHED: Filter crawled URLs');
+  }
+
+  @Cron(CronExpression.EVERY_30_SECONDS)
+  async handleCrawledStatus() {
+    this.logger.debug('CRON JOB STARTED: Handle crawled status');
+
+    const crawls = await this.service.findByStatus(NewsletterStatus.IN_PROGRESS);
+
+    const scrapedFiltered = crawls.filter((cr) => {
+      const filteredScrapes = cr.scrapedArticles.filter((sa) => sa.status === NewsletterStatus.COMPLETED);
+
+      if (filteredScrapes.length >= Number(process.env.SCRAPER_LIMIT)) {
+        return cr;
+      }
+    });
+
+    const updatePromises = scrapedFiltered.map(async (sf) => {
+      sf.status = NewsletterStatus.COMPLETED;
+      await this.service.update(sf);
+    });
+
+    await Promise.all(updatePromises);
   }
 }

@@ -125,6 +125,7 @@ export class CrawlerService {
     return JSON.parse(completion.choices[0].message.content) as { regex: string };
   }
 
+  // REFATORAR
   async findByJobStatus(status: string): Promise<CrawledUrl[]> {
     return await this.crawledUrlRepository.find({
       where: {
@@ -134,7 +135,21 @@ export class CrawlerService {
     });
   }
 
+  // REFATORAR
+  async findByStatus(status: string) {
+    return await this.crawledUrlRepository.find({
+      where: {
+        status: Like(status),
+      },
+      relations: {
+        scrapedArticles: true,
+      },
+    });
+  }
+
   async update(data: CrawledUrl) {
     await this.crawledUrlRepository.save(data);
   }
+
+  async crawledStatus() {}
 }
