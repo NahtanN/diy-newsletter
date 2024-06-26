@@ -27,6 +27,7 @@ export class CrawlerProcessor {
     const response = await this.service.crawlUrl(data.sourceUrl);
 
     data.jobId = response.jobId;
+    data.jobStatus = NewsletterStatus.IN_PROGRESS;
 
     await this.service.update(data);
   }
@@ -40,6 +41,7 @@ export class CrawlerProcessor {
 
       const data = job.data as CrawledUrl;
       data.status = NewsletterStatus.FAILED;
+      data.jobStatus = NewsletterStatus.FAILED;
 
       await this.service.update(data);
     }

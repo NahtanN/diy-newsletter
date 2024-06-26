@@ -18,6 +18,9 @@ export class CrawledUrl {
   @Column({ name: 'job_id' })
   jobId: string;
 
+  @Column({ name: 'job_status' })
+  jobStatus: string;
+
   @Column({ name: 'articles_url', type: 'varchar', array: true })
   articlesUrl: string[];
 

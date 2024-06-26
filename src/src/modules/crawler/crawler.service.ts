@@ -125,11 +125,11 @@ export class CrawlerService {
     return JSON.parse(completion.choices[0].message.content) as { regex: string };
   }
 
-  async findByStatus(status: string): Promise<CrawledUrl[]> {
+  async findByJobStatus(status: string): Promise<CrawledUrl[]> {
     return await this.crawledUrlRepository.find({
       where: {
         jobId: Not(IsNull()),
-        status: Like(status),
+        jobStatus: Like(status),
       },
     });
   }
