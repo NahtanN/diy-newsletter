@@ -15,7 +15,7 @@ export class CrawlerProcessor {
 
   @Process(Queues.CRAWLER.process.URL)
   async handlerCrawUrls(job: Job) {
-    this.logger.log(`process started: creating newsletter ${job.data.id}`);
+    this.logger.log(`Process started: creating newsletter ${job.data.id}`);
     const data = job.data as CrawledUrl;
 
     if (job.attemptsMade === FIRST_ATTEMPT) {
@@ -34,10 +34,10 @@ export class CrawlerProcessor {
 
   @OnQueueFailed()
   async handleFailed(job: Job) {
-    this.logger.warn(`process failed: newsletter-${job.data.id};retry:${job.attemptsMade}`);
+    this.logger.warn(`Process failed: newsletter-${job.data.id};retry:${job.attemptsMade}`);
 
     if (job.opts.attempts === job.attemptsMade) {
-      this.logger.error(`process failed: newsletter-${job.data.id}`);
+      this.logger.error(`Process failed: newsletter-${job.data.id}`);
 
       const data = job.data as CrawledUrl;
       data.status = NewsletterStatus.FAILED;

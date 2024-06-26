@@ -8,6 +8,8 @@ import { BullModule } from '@nestjs/bull';
 import { Queues } from 'src/src/constants';
 import { BullAdapter } from '@bull-board/api/bullAdapter';
 import { BullBoardModule } from '@bull-board/nestjs';
+import { HttpModule } from '@nestjs/axios';
+import { ScraperProcessor } from './scraper.processor';
 
 @Module({
   imports: [
@@ -19,7 +21,8 @@ import { BullBoardModule } from '@bull-board/nestjs';
       name: Queues.SCRAPER.name,
       adapter: BullAdapter,
     }),
+    HttpModule,
   ],
-  providers: [ScraperService, ScraperJob],
+  providers: [ScraperService, ScraperJob, ScraperProcessor],
 })
 export class ScraperModule {}
