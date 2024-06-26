@@ -11,6 +11,7 @@ import { BullBoardModule } from '@bull-board/nestjs';
 import { ExpressAdapter } from '@bull-board/express';
 import { CrawlerModule } from './src/modules/crawler/crawler.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ScraperModule } from './src/modules/scraper/scraper.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     NewsletterModule,
     DatabaseModule,
     CrawlerModule,
+    ScraperModule,
   ],
   controllers: [AppController],
   providers: [AppService],

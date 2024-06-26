@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Newsletter } from '../../newsletter/entities/newsletter.entity';
+import { ScrapedArticle } from '../../scraper/entities/scraped_article.entity';
 
 @Entity('crawled_urls')
 export class CrawledUrl {
@@ -33,4 +34,7 @@ export class CrawledUrl {
   @ManyToOne(() => Newsletter, (entity) => entity.crawledUrls)
   @JoinColumn({ name: 'newsletter_id' })
   newsletter: Newsletter;
+
+  @OneToMany(() => ScrapedArticle, (entity) => entity.crawledUrl)
+  scrapedArticles: ScrapedArticle[];
 }

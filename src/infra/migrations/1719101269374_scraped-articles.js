@@ -3,6 +3,7 @@ exports.up = (pgm) => {
         CREATE TABLE "scraped_articles" (
             "id" serial PRIMARY KEY,
             "crawled_url_id" integer NOT NULL,
+            "source_url" varchar,
             "article_content" text,
             "status" varchar,
             "created_at" timestamp with time zone not null default (current_timestamp at time zone 'utc')

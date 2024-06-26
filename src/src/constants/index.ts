@@ -20,4 +20,10 @@ export const Queues = Object.freeze({
       URL: 'url',
     },
   },
+  SCRAPER: {
+    name: 'scraper',
+    process: {
+      URL: 'url',
+    },
+  },
 });
