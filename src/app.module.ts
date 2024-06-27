@@ -1,17 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
-import { NewsletterPreferencesModule } from './src/modules/newsletter_preferences/newsletter_preferences.module';
-import { DatabaseModule } from './src/providers/database/database.module';
-import { NewsletterModule } from './src/modules/newsletter/newsletter.module';
 import { BullModule } from '@nestjs/bull';
 import { BullBoardModule } from '@bull-board/nestjs';
 import { ExpressAdapter } from '@bull-board/express';
-import { CrawlerModule } from './src/modules/crawler/crawler.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { ScraperModule } from './src/modules/scraper/scraper.module';
+import { NewsletterPreferencesModule } from './modules/newsletter_preferences/newsletter_preferences.module';
+import { NewsletterModule } from './modules/newsletter/newsletter.module';
+import { DatabaseModule } from './providers/database/database.module';
+import { CrawlerModule } from './modules/crawler/crawler.module';
+import { ScraperModule } from './modules/scraper/scraper.module';
+import { AiModule } from './modules/ai/ai.module';
 
 @Module({
   imports: [
@@ -33,8 +32,7 @@ import { ScraperModule } from './src/modules/scraper/scraper.module';
     DatabaseModule,
     CrawlerModule,
     ScraperModule,
+    AiModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

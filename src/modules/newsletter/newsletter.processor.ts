@@ -1,9 +1,9 @@
 import { InjectQueue, OnQueueFailed, Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import { Job, Queue } from 'bull';
-import { NewsletterStatus, Queues } from 'src/src/constants';
 import { NewsletterService } from './newsletter.service';
 import { Newsletter } from './entities/newsletter.entity';
+import { NewsletterStatus, Queues } from 'src/constants';
 
 const FIRST_ATTEMPT = 0;
 

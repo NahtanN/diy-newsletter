@@ -5,7 +5,7 @@ import { ScrapedArticle } from './entities/scraped_article.entity';
 import { CrawledUrl } from '../crawler/entities/crawled_url.entity';
 import { ScraperJob } from './scraper.job';
 import { BullModule } from '@nestjs/bull';
-import { Queues } from 'src/src/constants';
+import { Queues } from 'src/constants';
 import { BullAdapter } from '@bull-board/api/bullAdapter';
 import { BullBoardModule } from '@bull-board/nestjs';
 import { HttpModule } from '@nestjs/axios';

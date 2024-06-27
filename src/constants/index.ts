@@ -5,6 +5,7 @@ export const NewsletterStatus = Object.freeze({
   IN_PROGRESS: 'in_progress',
   COMPLETED: 'completed',
   FAILED: 'failed',
+  WAITING: 'waiting',
 });
 
 export const Queues = Object.freeze({
@@ -24,6 +25,12 @@ export const Queues = Object.freeze({
     name: 'scraper',
     process: {
       URL: 'url',
+    },
+  },
+  AI: {
+    name: 'ai',
+    process: {
+      NEWSLETTER: 'newsletter',
     },
   },
 });

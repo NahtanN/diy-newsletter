@@ -1,6 +1,6 @@
 import { OnQueueFailed, Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
-import { NewsletterStatus, Queues } from 'src/src/constants';
+import { NewsletterStatus, Queues } from 'src/constants';
 import { ScraperService } from './scraper.service';
 import { ScrapedArticle } from './entities/scraped_article.entity';
 import { Job } from 'bull';

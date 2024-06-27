@@ -1,7 +1,7 @@
 import { OnQueueFailed, Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bull';
-import { NewsletterStatus, Queues } from 'src/src/constants';
+import { NewsletterStatus, Queues } from 'src/constants';
 import { CrawledUrl } from './entities/crawled_url.entity';
 import { CrawlerService } from './crawler.service';
 

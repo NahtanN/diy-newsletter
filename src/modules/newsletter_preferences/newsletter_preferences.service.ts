@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { SavePreferencesDto } from './dtos/save_preferences.dto';
-import { AppService } from 'src/app.service';
 import { DataSource, Repository } from 'typeorm';
 import { NewsletterPreference } from './entities/newsletter_preference.entity';
 import { NewsletterPreferenceConfig } from './entities/newsletter_preference_config.entity';
@@ -8,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class NewsletterPreferencesService {
-  private readonly logger = new Logger(AppService.name);
+  private readonly logger = new Logger(NewsletterPreferencesService.name);
 
   constructor(
     private readonly dataSource: DataSource,

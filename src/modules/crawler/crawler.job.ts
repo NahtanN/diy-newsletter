@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { CrawlerService } from './crawler.service';
-import { NewsletterStatus } from 'src/src/constants';
+import { NewsletterStatus } from 'src/constants';
 
 @Injectable()
 export class CrawlerJob {

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ScrapedArticle } from './entities/scraped_article.entity';
 import { In, Like, Repository } from 'typeorm';
 import { InjectQueue } from '@nestjs/bull';
-import { NewsletterStatus, Queues } from 'src/src/constants';
+import { NewsletterStatus, Queues } from 'src/constants';
 import { Queue } from 'bull';
 import { CrawledUrl } from '../crawler/entities/crawled_url.entity';
 import { catchError, firstValueFrom } from 'rxjs';
