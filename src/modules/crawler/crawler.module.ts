@@ -9,8 +9,9 @@ import { CrawlerJob } from './crawler.job';
 import { SourceUrlMeta } from './entities/source_url_meta.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CrawledUrl, SourceUrlMeta]), HttpModule],
-  controllers: [CrawlerController],
-  providers: [CrawlerService, CrawlerProcessor, CrawlerJob],
+ imports: [TypeOrmModule.forFeature([CrawledUrl, SourceUrlMeta]), HttpModule],
+ controllers: [CrawlerController],
+ providers: [CrawlerService, CrawlerProcessor, CrawlerJob],
+ exports: [CrawlerService],
 })
 export class CrawlerModule {}

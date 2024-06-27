@@ -13,6 +13,7 @@ export class AiService {
   }
 
   async createAIContent(data: { title: string; articles: string[] }) {
+    return { newsletter: 'placeholder' };
     try {
       const completion = await this.openai.chat.completions.create({
         messages: [
