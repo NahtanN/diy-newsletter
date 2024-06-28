@@ -7,7 +7,7 @@
   - [x] all
   - [x] by preference
   - [x] find one
-- [ ] add prettier format script
+- [x] add prettier format script
 - [ ] create docs
   - [ ] swagger
   - [ ] docker/docker compose
