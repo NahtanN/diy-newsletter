@@ -1,0 +1,67 @@
+
+
+Table "newsletter_preferences" {
+  "id" SERIAL [pk, increment]
+  "title" VARCHAR
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMPATTIMEZONE'utc'::TEXT`]
+}
+
+Table "newsletter_preference_config" {
+  "id" SERIAL [pk, increment]
+  "newsletter_id" INTEGER [not null]
+  "title" VARCHAR
+  "source_url" VARCHAR
+}
+
+Table "source_url_meta" {
+  "id" SERIAL [pk, increment]
+  "url" VARCHAR [not null]
+  "articles_regex" VARCHAR [not null]
+}
+
+Table "scraped_articles" {
+  "id" SERIAL [pk, increment]
+  "source_url" VARCHAR
+  "article_content" TEXT
+  "status" VARCHAR
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMPATTIMEZONE'utc'::TEXT`]
+}
+
+Table "newsletters" {
+  "id" SERIAL [pk, increment]
+  "newsletter_preference_id" INTEGER [not null]
+  "jobs" INTEGER [not null]
+  "status" VARCHAR
+  "content" TEXT
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMPATTIMEZONE'utc'::TEXT`]
+}
+
+Table "crawled_urls" {
+  "id" SERIAL [pk, increment]
+  "newsletter_id" INTEGER [not null]
+  "newsletter_preference_config_id" INTEGER [not null]
+  "source_url" VARCHAR
+  "job_id" VARCHAR
+  "job_status" VARCHAR
+  "articles_url" "CHARACTER VARYING[]"
+  "status" VARCHAR [not null]
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMPATTIMEZONE'utc'::TEXT`]
+}
+
+Table "crawled_url_scraped_articles" {
+  "crawled_url_id" INTEGER
+  "scraped_article_id" INTEGER
+}
+
+Ref:"newsletter_preferences"."id" < "newsletter_preference_config"."newsletter_id"
+
+Ref:"newsletter_preferences"."id" < "newsletters"."newsletter_preference_id"
+
+Ref:"newsletters"."id" < "crawled_urls"."newsletter_id"
+
+Ref:"newsletter_preference_config"."id" < "crawled_urls"."newsletter_preference_config_id"
+
+Ref:"crawled_urls"."id" < "crawled_url_scraped_articles"."crawled_url_id"
+
+Ref:"scraped_articles"."id" < "crawled_url_scraped_articles"."scraped_article_id"
+
