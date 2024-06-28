@@ -4,10 +4,10 @@ import { SavePreferencesDto } from './dtos/save_preferences.dto';
 
 @Controller('newsletter-preferences')
 export class NewsletterPreferencesController {
-  constructor(private readonly service: NewsletterPreferencesService) {}
+ constructor(private readonly service: NewsletterPreferencesService) {}
 
-  @Post()
-  savePreferences(@Body() body: SavePreferencesDto) {
-    return this.service.save(body);
-  }
+ @Post()
+ savePreferences(@Body() body: SavePreferencesDto) {
+  return this.service.save(body);
+ }
 }

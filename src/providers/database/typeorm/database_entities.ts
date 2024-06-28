@@ -6,10 +6,10 @@ import { NewsletterPreferenceConfig } from 'src/modules/newsletter_preferences/e
 import { ScrapedArticle } from 'src/modules/scraper/entities/scraped_article.entity';
 
 export const entities = [
-  NewsletterPreference,
-  NewsletterPreferenceConfig,
-  Newsletter,
-  CrawledUrl,
-  SourceUrlMeta,
-  ScrapedArticle,
+ NewsletterPreference,
+ NewsletterPreferenceConfig,
+ Newsletter,
+ CrawledUrl,
+ SourceUrlMeta,
+ ScrapedArticle,
 ];

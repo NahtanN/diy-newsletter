@@ -4,7 +4,7 @@ import { NewsletterModule } from '../newsletter/newsletter.module';
 import { AiProcessor } from './ai.processor';
 
 @Module({
-  imports: [NewsletterModule],
-  providers: [AiService, AiProcessor],
+ imports: [NewsletterModule],
+ providers: [AiService, AiProcessor],
 })
 export class AiModule {}
