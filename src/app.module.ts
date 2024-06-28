@@ -17,8 +17,8 @@ import { AiModule } from './modules/ai/ai.module';
   ConfigModule.forRoot(),
   BullModule.forRoot({
    redis: {
-    host: 'localhost',
-    port: 3030,
+    host: process.env.REDIS_HOST,
+    port: Number(process.env.REDIS_PORT),
    },
   }),
   BullBoardModule.forRoot({

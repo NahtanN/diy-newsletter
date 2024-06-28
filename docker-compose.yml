@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  database:
+    container_name: diy-newsletter-database
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_SCHEMA}
+  redis:
+    image: redis:7-alpine
+    container_name: 'redis'
+    ports:
+      - ${REDIS_PORT}:6379

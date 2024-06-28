@@ -9,6 +9,6 @@
   - [x] find one
 - [x] add prettier format script
 - [ ] create docs
-  - [ ] swagger
-  - [ ] docker/docker compose
+  - [x] swagger
+  - [x] docker/docker compose
   - [ ] diagrams and readme

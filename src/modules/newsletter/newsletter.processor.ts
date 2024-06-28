@@ -3,9 +3,7 @@ import { Logger } from '@nestjs/common';
 import { Job, Queue } from 'bull';
 import { NewsletterService } from './newsletter.service';
 import { Newsletter } from './entities/newsletter.entity';
-import { NewsletterStatus, Queues } from 'src/constants';
-
-const FIRST_ATTEMPT = 0;
+import { FIRST_ATTEMPT, NewsletterStatus, Queues } from 'src/constants';
 
 @Processor(Queues.NEWSLETTER.name)
 export class NewsletterProcessor {

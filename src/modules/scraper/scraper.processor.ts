@@ -1,11 +1,9 @@
 import { OnQueueFailed, Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
-import { NewsletterStatus, Queues } from 'src/constants';
+import { FIRST_ATTEMPT, NewsletterStatus, Queues } from 'src/constants';
 import { ScraperService } from './scraper.service';
 import { ScrapedArticle } from './entities/scraped_article.entity';
 import { Job } from 'bull';
-
-const FIRST_ATTEMPT = 0;
 
 @Processor(Queues.SCRAPER.name)
 export class ScraperProcessor {

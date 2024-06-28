@@ -1,5 +1,7 @@
 export const PG_CONNECTION = 'PG_CONNECTION';
 
+export const FIRST_ATTEMPT = 0;
+
 export const NewsletterStatus = Object.freeze({
  PENDING: 'pending',
  IN_PROGRESS: 'in_progress',
