@@ -13,26 +13,26 @@ import { ScraperModule } from './modules/scraper/scraper.module';
 import { AiModule } from './modules/ai/ai.module';
 
 @Module({
- imports: [
-  ConfigModule.forRoot(),
-  BullModule.forRoot({
-   redis: {
-    host: process.env.REDIS_HOST,
-    port: Number(process.env.REDIS_PORT),
-   },
-  }),
-  BullBoardModule.forRoot({
-   route: '/queues',
-   adapter: ExpressAdapter,
-  }),
-  ScheduleModule.forRoot(),
-  HttpModule,
-  NewsletterPreferencesModule,
-  NewsletterModule,
-  DatabaseModule,
-  CrawlerModule,
-  ScraperModule,
-  AiModule,
- ],
+	imports: [
+		ConfigModule.forRoot(),
+		BullModule.forRoot({
+			redis: {
+				host: process.env.REDIS_HOST,
+				port: Number(process.env.REDIS_PORT),
+			},
+		}),
+		BullBoardModule.forRoot({
+			route: '/queues',
+			adapter: ExpressAdapter,
+		}),
+		ScheduleModule.forRoot(),
+		HttpModule,
+		NewsletterPreferencesModule,
+		NewsletterModule,
+		DatabaseModule,
+		CrawlerModule,
+		ScraperModule,
+		AiModule,
+	],
 })
 export class AppModule {}

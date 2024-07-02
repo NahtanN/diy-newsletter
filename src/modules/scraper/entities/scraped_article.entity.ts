@@ -2,18 +2,18 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeor
 
 @Entity('scraped_articles')
 export class ScrapedArticle {
- @PrimaryGeneratedColumn()
- id: number;
+	@PrimaryGeneratedColumn()
+	id: number;
 
- @Column({ name: 'source_url' })
- sourceUrl: string;
+	@Column({ name: 'source_url' })
+	sourceUrl: string;
 
- @Column({ name: 'article_content' })
- articleContent: string;
+	@Column({ name: 'article_content' })
+	articleContent: string;
 
- @Column()
- status: string;
+	@Column()
+	status: string;
 
- @CreateDateColumn({ name: 'created_at' })
- createdAt: Date;
+	@CreateDateColumn({ name: 'created_at' })
+	createdAt: Date;
 }

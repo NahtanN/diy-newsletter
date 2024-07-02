@@ -7,71 +7,71 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class NewsletterPreferencesService {
- private readonly logger = new Logger(NewsletterPreferencesService.name);
+	private readonly logger = new Logger(NewsletterPreferencesService.name);
 
- constructor(
-  private readonly dataSource: DataSource,
-  @InjectRepository(NewsletterPreference)
-  private readonly newsletterPreferenceRepository: Repository<NewsletterPreference>,
- ) {}
+	constructor(
+		private readonly dataSource: DataSource,
+		@InjectRepository(NewsletterPreference)
+		private readonly newsletterPreferenceRepository: Repository<NewsletterPreference>,
+	) {}
 
- async findOne(id: number) {
-  return await this.newsletterPreferenceRepository.findOne({
-   where: {
-    id,
-   },
-   relations: {
-    config: true,
-   },
-  });
- }
+	async findOne(id: number) {
+		return await this.newsletterPreferenceRepository.findOne({
+			where: {
+				id,
+			},
+			relations: {
+				config: true,
+			},
+		});
+	}
 
- async save(data: SavePreferencesDto) {
-  const queryRunner = this.dataSource.createQueryRunner();
-  const manager = queryRunner.manager;
+	async save(data: SavePreferencesDto) {
+		const queryRunner = this.dataSource.createQueryRunner();
+		const manager = queryRunner.manager;
 
-  await queryRunner.connect();
-  await queryRunner.startTransaction();
+		await queryRunner.connect();
+		await queryRunner.startTransaction();
 
-  let newsLetterPreferenceId: number;
+		let newsLetterPreferenceId: number;
 
-  try {
-   const { id } = await manager.save(NewsletterPreference, {
-    title: data.title,
-   });
+		try {
+			const { id } = await manager.save(NewsletterPreference, {
+				title: data.title,
+			});
 
-   newsLetterPreferenceId = id;
-  } catch (error) {
-   await queryRunner.rollbackTransaction();
-   this.logger.error(error);
+			newsLetterPreferenceId = id;
+		} catch (error) {
+			await queryRunner.rollbackTransaction();
+			this.logger.error(error);
 
-   throw new HttpException('Não foi possível criar a configuração de newsletter.', HttpStatus.INTERNAL_SERVER_ERROR);
-  }
+			throw new HttpException('Não foi possível criar a configuração de newsletter.', HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
-  const sourceArray = data.sources.map((source) =>
-   manager.save(NewsletterPreferenceConfig, {
-    title: source.title,
-    sourceUrl: source.url,
-    newsletterId: newsLetterPreferenceId,
-   } as NewsletterPreferenceConfig),
-  );
+		const sourceArray = data.sources.map((source) =>
+			manager.save(NewsletterPreferenceConfig, {
+				title: source.title,
+				sourceUrl: source.url,
+				newsletterId: newsLetterPreferenceId,
+			} as NewsletterPreferenceConfig),
+		);
 
-  try {
-   await Promise.all(sourceArray);
-  } catch (error) {
-   await queryRunner.rollbackTransaction();
-   this.logger.error(error);
+		try {
+			await Promise.all(sourceArray);
+		} catch (error) {
+			await queryRunner.rollbackTransaction();
+			this.logger.error(error);
 
-   throw new HttpException('Não foi possível salvar as preferencias da newsletter.', HttpStatus.INTERNAL_SERVER_ERROR);
-  }
+			throw new HttpException('Não foi possível salvar as preferencias da newsletter.', HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
-  await queryRunner.commitTransaction();
+		await queryRunner.commitTransaction();
 
-  const newsletterPreference = await this.findOne(newsLetterPreferenceId);
+		const newsletterPreference = await this.findOne(newsLetterPreferenceId);
 
-  return {
-   message: 'Configuração de newsletter criada com sucesso.',
-   newsletterPreference,
-  };
- }
+		return {
+			message: 'Configuração de newsletter criada com sucesso.',
+			newsletterPreference,
+		};
+	}
 }

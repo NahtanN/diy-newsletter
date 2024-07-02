@@ -13,18 +13,18 @@ import { ScraperProcessor } from './scraper.processor';
 import { CrawlerModule } from '../crawler/crawler.module';
 
 @Module({
- imports: [
-  TypeOrmModule.forFeature([ScrapedArticle, CrawledUrl]),
-  BullModule.registerQueue({
-   name: Queues.SCRAPER.name,
-  }),
-  BullBoardModule.forFeature({
-   name: Queues.SCRAPER.name,
-   adapter: BullAdapter,
-  }),
-  HttpModule,
-  CrawlerModule,
- ],
- providers: [ScraperService, ScraperJob, ScraperProcessor],
+	imports: [
+		TypeOrmModule.forFeature([ScrapedArticle, CrawledUrl]),
+		BullModule.registerQueue({
+			name: Queues.SCRAPER.name,
+		}),
+		BullBoardModule.forFeature({
+			name: Queues.SCRAPER.name,
+			adapter: BullAdapter,
+		}),
+		HttpModule,
+		CrawlerModule,
+	],
+	providers: [ScraperService, ScraperJob, ScraperProcessor],
 })
 export class ScraperModule {}

@@ -4,6 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Global()
 @Module({
- imports: [TypeOrmModule.forRoot(AppDataSource.options)],
+	imports: [TypeOrmModule.forRoot(AppDataSource.options)],
 })
 export class DatabaseModule {}

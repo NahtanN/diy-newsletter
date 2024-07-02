@@ -7,11 +7,11 @@ import { NewsletterPreferenceSaveDocs } from 'src/docs/newsletter_preferences/sa
 @ApiTags('newsletter-preferences')
 @Controller('newsletter-preferences')
 export class NewsletterPreferencesController {
- constructor(private readonly service: NewsletterPreferencesService) {}
+	constructor(private readonly service: NewsletterPreferencesService) {}
 
- @NewsletterPreferenceSaveDocs()
- @Post()
- savePreferences(@Body() body: SavePreferencesDto) {
-  return this.service.save(body);
- }
+	@NewsletterPreferenceSaveDocs()
+	@Post()
+	savePreferences(@Body() body: SavePreferencesDto) {
+		return this.service.save(body);
+	}
 }

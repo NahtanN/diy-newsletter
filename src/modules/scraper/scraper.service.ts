@@ -12,100 +12,100 @@ import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class ScraperService {
- private readonly logger = new Logger(ScraperService.name);
+	private readonly logger = new Logger(ScraperService.name);
 
- constructor(
-  @InjectRepository(ScrapedArticle)
-  private readonly scrapedArticleRepository: Repository<ScrapedArticle>,
-  @InjectRepository(CrawledUrl)
-  private readonly crawledUrlRepository: Repository<CrawledUrl>,
-  @InjectQueue(Queues.SCRAPER.name)
-  private readonly scraperQueue: Queue,
-  private readonly httpService: HttpService,
- ) {}
+	constructor(
+		@InjectRepository(ScrapedArticle)
+		private readonly scrapedArticleRepository: Repository<ScrapedArticle>,
+		@InjectRepository(CrawledUrl)
+		private readonly crawledUrlRepository: Repository<CrawledUrl>,
+		@InjectQueue(Queues.SCRAPER.name)
+		private readonly scraperQueue: Queue,
+		private readonly httpService: HttpService,
+	) {}
 
- async findPendingScrapes() {
-  const result = await this.crawledUrlRepository.find({
-   where: {
-    jobStatus: Like(NewsletterStatus.COMPLETED),
-   },
-   relations: {
-    scrapedArticles: true,
-   },
-  });
+	async findPendingScrapes() {
+		const result = await this.crawledUrlRepository.find({
+			where: {
+				jobStatus: Like(NewsletterStatus.COMPLETED),
+			},
+			relations: {
+				scrapedArticles: true,
+			},
+		});
 
-  return result;
- }
+		return result;
+	}
 
- limitArticles(crawledUrl: CrawledUrl): string[] {
-  const scraped = crawledUrl.scrapedArticles.map((sc) => sc.sourceUrl);
-  const filtered: string[] = [];
-  for (let i = 0; i < Number(process.env.SCRAPER_LIMIT); i++) {
-   const url = crawledUrl.articlesUrl[i];
-   if (scraped.includes(url)) continue;
+	limitArticles(crawledUrl: CrawledUrl): string[] {
+		const scraped = crawledUrl.scrapedArticles.map((sc) => sc.sourceUrl);
+		const filtered: string[] = [];
+		for (let i = 0; i < Number(process.env.SCRAPER_LIMIT); i++) {
+			const url = crawledUrl.articlesUrl[i];
+			if (scraped.includes(url)) continue;
 
-   filtered.push(url);
-  }
+			filtered.push(url);
+		}
 
-  return filtered;
- }
+		return filtered;
+	}
 
- async filterPendingArticles(sourceUrls: string[]) {
-  const alreadyScraped = await this.scrapedArticleRepository.find({
-   where: {
-    sourceUrl: In(sourceUrls),
-   },
-  });
-  const alreadyScrapedUrls = alreadyScraped.map((sc) => sc.sourceUrl);
+	async filterPendingArticles(sourceUrls: string[]) {
+		const alreadyScraped = await this.scrapedArticleRepository.find({
+			where: {
+				sourceUrl: In(sourceUrls),
+			},
+		});
+		const alreadyScrapedUrls = alreadyScraped.map((sc) => sc.sourceUrl);
 
-  return {
-   articles: alreadyScraped,
-   filtered: sourceUrls.filter((url) => !alreadyScrapedUrls.includes(url)),
-  };
- }
+		return {
+			articles: alreadyScraped,
+			filtered: sourceUrls.filter((url) => !alreadyScrapedUrls.includes(url)),
+		};
+	}
 
- async addOnScraperQueue(crawledUrl: CrawledUrl, add: string[]) {
-  const scrapedArticles = add.map((url) =>
-   this.scrapedArticleRepository.save({
-    sourceUrl: url,
-    status: NewsletterStatus.PENDING,
-   } as ScrapedArticle),
-  );
-  const databaseRecords = await Promise.all(scrapedArticles);
+	async addOnScraperQueue(crawledUrl: CrawledUrl, add: string[]) {
+		const scrapedArticles = add.map((url) =>
+			this.scrapedArticleRepository.save({
+				sourceUrl: url,
+				status: NewsletterStatus.PENDING,
+			} as ScrapedArticle),
+		);
+		const databaseRecords = await Promise.all(scrapedArticles);
 
-  const addOnQueue = databaseRecords.map((record) =>
-   this.scraperQueue.add(Queues.SCRAPER.process.URL, record, {
-    attempts: 3,
-    backoff: {
-     type: 'fixed',
-     delay: 3000,
-    },
-   }),
-  );
-  await Promise.all(addOnQueue);
- }
+		const addOnQueue = databaseRecords.map((record) =>
+			this.scraperQueue.add(Queues.SCRAPER.process.URL, record, {
+				attempts: 3,
+				backoff: {
+					type: 'fixed',
+					delay: 3000,
+				},
+			}),
+		);
+		await Promise.all(addOnQueue);
+	}
 
- async update(scrapedArticle: ScrapedArticle) {
-  await this.scrapedArticleRepository.save(scrapedArticle);
- }
+	async update(scrapedArticle: ScrapedArticle) {
+		await this.scrapedArticleRepository.save(scrapedArticle);
+	}
 
- async scrapeUrl(url: string) {
-  const { data: response } = await firstValueFrom(
-   this.httpService
-    .post('http://localhost:3002/v0/scrape', {
-     url,
-     pageOptions: {
-      onlyMainContent: true,
-     },
-    })
-    .pipe(
-     catchError((error: AxiosError) => {
-      this.logger.error(error.response.data);
-      throw 'An error happened!';
-     }),
-    ),
-  );
+	async scrapeUrl(url: string) {
+		const { data: response } = await firstValueFrom(
+			this.httpService
+				.post('http://localhost:3002/v0/scrape', {
+					url,
+					pageOptions: {
+						onlyMainContent: true,
+					},
+				})
+				.pipe(
+					catchError((error: AxiosError) => {
+						this.logger.error(error.response.data);
+						throw 'An error happened!';
+					}),
+				),
+		);
 
-  return response;
- }
+		return response;
+	}
 }

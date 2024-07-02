@@ -4,18 +4,18 @@ import { Newsletter } from '../../newsletter/entities/newsletter.entity';
 
 @Entity('newsletter_preferences')
 export class NewsletterPreference {
- @PrimaryGeneratedColumn()
- id: number;
+	@PrimaryGeneratedColumn()
+	id: number;
 
- @Column()
- title: string;
+	@Column()
+	title: string;
 
- @CreateDateColumn({ name: 'created_at' })
- createdAt?: Date;
+	@CreateDateColumn({ name: 'created_at' })
+	createdAt?: Date;
 
- @OneToMany(() => NewsletterPreferenceConfig, (entity) => entity.newsletterPreference)
- config: NewsletterPreferenceConfig[];
+	@OneToMany(() => NewsletterPreferenceConfig, (entity) => entity.newsletterPreference)
+	config: NewsletterPreferenceConfig[];
 
- @OneToMany(() => Newsletter, (entity) => entity.preferences)
- newsletter: Newsletter;
+	@OneToMany(() => Newsletter, (entity) => entity.preferences)
+	newsletter: Newsletter;
 }
